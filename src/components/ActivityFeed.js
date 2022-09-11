@@ -68,7 +68,7 @@ const ActivityFeed = (props) =>{
 
       return (<div>
        {!isArchived ? <>
-       { !isDetails && <div className={classes.contactContainer}  style={{marginTop: "0px", padding: "5.5px", width: "50%" }} 
+       { !isDetails && !showAllArchived && <div className={classes.contactContainer}  style={{marginTop: "0px", padding: "5.5px", width: "50%" }} 
        onClick={()=>  updateAchieveAllHandler()}> 
        <span style={{fontWeight: "bold", marginLeft: "25px"}}>Achieve all calls</span>
         </div>}
