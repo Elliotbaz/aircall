@@ -1,0 +1,46 @@
+.activeFeedContainer{
+    width: 100%;
+    height: 10.4vh;
+}
+.date{   
+    text-align: center;
+    color:darkgray;
+    font-weight: bold;
+}
+.contactContainer{
+    margin: 10px auto;
+    width: 80%;
+    padding: 5px;
+    border-radius: 6px;
+    border: 0.2px solid rgb(187, 186, 186);
+    cursor:pointer;
+}
+.callsFrom{
+    font-weight: bolder;
+    margin-left: 25px;
+    color:rgb(39, 37, 37);
+}
+.time{
+    float: right;
+    color: rgb(187, 186, 186);
+    font-weight: bold;
+}
+.triedToCall{
+    margin-top: 5px;
+    margin-left: 45px;
+    color: rgb(187, 186, 186);
+    font-size: smaller;
+}
+.detailsContainer{
+    width: 100%;
+    height: 70.5vh;
+}
+.detailsContent{
+    margin-bottom: 20px;
+    color: rgb(77, 76, 76);
+}
+.line{
+    border-left: 2px dotted rgb(187, 186, 186);
+    height: 500px;
+    margin-right: 10px;
+}
