@@ -3,6 +3,7 @@ import classes from './ActivityFeed.module.css';
 import PhoneIcon from '../PhoneIcon';
 import BinIcon from '../BinIcon';
 import Menu from '../Menu'
+import {Undo} from '../MenuIcons'
 
 const getActivityFeeds = "https://aircall-job.herokuapp.com/activities";
 const getDetails = "https://aircall-job.herokuapp.com/activities/";
@@ -64,13 +65,25 @@ const ActivityFeed = (props) =>{
             })
         }
         
+        const unArchivedACallHandler = (id) =>{
+          const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ is_archived: false })
+        };   
+         fetch(updateAchieve+id, requestOptions)
+        .then(response => response.json())
+        .then(data => {
+              setActiveFeeds([...activeFeeds, data])
+            })
+        }
     
 
       return (<div>
        {!isArchived ? <>
        { !isDetails && !showAllArchived && <div className={classes.contactContainer}  style={{marginTop: "0px", padding: "5.5px", width: "50%" }} 
        onClick={()=>  updateAchieveAllHandler()}> 
-       <span style={{fontWeight: "bold", marginLeft: "25px"}}>Achieve all calls</span>
+       <span style={{fontWeight: "bold", marginLeft: "25px"}}>Archive all calls</span>
         </div>}
         </> : 
         <div className={classes.contactContainer} style={{marginTop: "0px", padding: "5.5px", width: "30%"}} 
@@ -81,7 +94,7 @@ const ActivityFeed = (props) =>{
         { !showAllArchived ? 
         <div className={classes.contactContainer}  style={{marginTop: "0px", padding: "5.5px", width: "50%" }} 
        onClick={()=>  setShowAllArchived(true)}> 
-        <BinIcon/> <span style={{fontWeight: "bold", marginLeft: "25px"}}>View all achieve calls</span>
+        <BinIcon/> <span style={{fontWeight: "bold", marginLeft: "25px"}}>View all archive calls</span>
         </div> : 
         <div className={classes.contactContainer}  style={{marginTop: "0px", padding: "5.5px", width: "50%" }} 
        onClick={()=>  setShowAllArchived(false)}> 
@@ -110,10 +123,10 @@ const ActivityFeed = (props) =>{
             {
                 showAllArchived && calls.is_archived &&
                 <div className={classes.activeFeedContainer} key={calls.id} 
-                onClick={() => console.log(calls.id)}>
+                onClick={() => unArchivedACallHandler(calls.id)}>
                    <div className={classes.date}> {calls.created_at.split('T')[0]}</div>
                     <div className={classes.contactContainer}> 
-                    <div> <span></span>
+                    <div> <Undo/>
                         <span className={classes.callsFrom}>
                             {calls.from}
                         </span> 
