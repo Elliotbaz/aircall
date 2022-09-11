@@ -14,6 +14,7 @@ const ActivityFeed = (props) =>{
   const [isDetails, setIsDetails] = useState(false)
   const [activeDetails, setActiveDetails] = useState({})
   const [isArchived, setIsArchived] = useState(false)
+  const [showAllArchived, setShowAllArchived] = useState(false)
   useEffect(() => {
         fetch(getActivityFeeds)
           .then(response => response.json())
@@ -71,19 +72,26 @@ const ActivityFeed = (props) =>{
        onClick={()=>  updateAchieveAllHandler()}> 
        <span style={{fontWeight: "bold", marginLeft: "25px"}}>Achieve all calls</span>
         </div>}
-        
-        </> : <div className={classes.contactContainer} style={{marginTop: "0px", padding: "5.5px", width: "30%"}} 
+        </> : 
+        <div className={classes.contactContainer} style={{marginTop: "0px", padding: "5.5px", width: "30%"}} 
        onClick={() => resetAllArchivedCalls()}> 
         <span style={{fontWeight: "bold", marginLeft: "25px"}}>Reset all calls</span>
         </div>}
-        { !isDetails && <div className={classes.contactContainer}  style={{marginTop: "0px", padding: "5.5px", width: "50%" }} 
-       onClick={()=>  console.log("This")}> 
+
+        { !showAllArchived ? 
+        <div className={classes.contactContainer}  style={{marginTop: "0px", padding: "5.5px", width: "50%" }} 
+       onClick={()=>  setShowAllArchived(true)}> 
         <BinIcon/> <span style={{fontWeight: "bold", marginLeft: "25px"}}>View all achieve calls</span>
+        </div> : 
+        <div className={classes.contactContainer}  style={{marginTop: "0px", padding: "5.5px", width: "50%" }} 
+       onClick={()=>  setShowAllArchived(false)}> 
+        <span style={{fontWeight: "bold", marginLeft: "25px"}}>Back To Call Log</span>
         </div>}
 
+
+
         {!isDetails ? activeFeeds.map((calls) => <div key={calls.id} >  
-        
-        {!calls.is_archived && <div className={classes.activeFeedContainer} key={calls.id} 
+        {!calls.is_archived && !showAllArchived && <div className={classes.activeFeedContainer} key={calls.id} 
         onClick={() => getActivityDetailsHandler(calls.id)}>
            <div className={classes.date}> {calls.created_at.split('T')[0]}</div>
             <div className={classes.contactContainer}> 
@@ -98,7 +106,27 @@ const ActivityFeed = (props) =>{
                         tried to call on <span style={{fontWeight: "bold"}}>{calls.via}</span>
                     </div>
              </div>
-            </div>}</div>)
+            </div>}
+            {
+                showAllArchived && calls.is_archived &&
+                <div className={classes.activeFeedContainer} key={calls.id} 
+                onClick={() => console.log(calls.id)}>
+                   <div className={classes.date}> {calls.created_at.split('T')[0]}</div>
+                    <div className={classes.contactContainer}> 
+                    <div> <span></span>
+                        <span className={classes.callsFrom}>
+                            {calls.from}
+                        </span> 
+                            <span className={classes.time}> <span className={classes.line}></span> 
+                            {calls.created_at.split('T').pop().split('.')[0]}</span>
+                            </div>
+                            <div className={classes.triedToCall}>
+                                tried to call on <span style={{fontWeight: "bold"}}>{calls.via}</span>
+                            </div>
+                     </div>
+                    </div>
+            }
+            </div>)
              : 
             <div className={classes.detailsContainer}>
               <div className={classes.contactContainer} style={{marginTop: "0px", padding: "5.5px"}}
